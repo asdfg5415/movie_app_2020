@@ -37,7 +37,7 @@ const list = [
 function Food({ name, picture }) {
   return (
     <div>
-      <h2> 고기나먹어 제껴버리고싶다 시발 {name} </h2>
+      <h2> 고기나먹어랏... {name} </h2>
       <img src={picture} alt={name} />
     </div>
   );
