@@ -1,62 +1,44 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const list = [
-  {
-    id: 1,
-    name: "1",
-    img:
-      "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.TMmeHZc2BO3lzL3tnLQjfgHaE8%26pid%3DApi&f=1",
-  },
-  {
-    id: 2,
-    name: "2",
-    img:
-      "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.atChPpvEjiXwckGgZypOBAHaEc%26pid%3DApi&f=1",
-  },
-  {
-    id: 3,
-    name: "3",
-    img:
-      "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.OUA9d_lOAtIrOXbbJitryQHaFF%26pid%3DApi&f=1",
-  },
-  {
-    id: 4,
-    name: "4",
-    img:
-      "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.e6d2nMN8uvbUBFQ-djaoRwHaE7%26pid%3DApi&f=1",
-  },
-  {
-    id: 5,
-    name: "5",
-    img:
-      "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.0LxXqpEEMDwcBWsdgi4Q7wHaEK%26pid%3DApi&f=1",
-  },
-];
+class App extends React.Component {
+  state = {
+    count: 0,
+  };
 
-function Food({ name, picture }) {
-  return (
-    <div>
-      <h2> 고기나먹어랏... {name} </h2>
-      <img src={picture} alt={name} />
-    </div>
-  );
-}
+  // 이렇게 클래스 내의 함수에서 쌩으로 state를 건들면 작동 X
+  add_wrong = () => {
+    this.state.count += 1;
+  };
 
-// PropTypes 추가
-Food.propTypes = {
-  name: PropTypes.string.isRequired,
-  picture: PropTypes.string.isRequired,
-};
+  // 이렇게 setState를 통해서 하면 작동할 것처럼 보이지만 X
+  minus_wrong = () => {
+    this.setState({ count: this.count - 1 });
+  };
 
-function App() {
-  return (
-    <div>
-      {list.map((dish) => (
-        <Food key={dish.id} name={dish.name} picture={dish.img} />
-      ))}
-    </div>
-  );
+  // 이렇게 setState를 통해서
+  // 직접적으로 this.state를 건들지않으면서 해야 작동 O
+  add_correct = () => {
+    this.setState((current) => ({
+      count: current.count + 1,
+    }));
+  };
+
+  minus_correct = () => {
+    this.setState((current) => ({
+      count: current.count - 1,
+    }));
+  };
+
+  render() {
+    return (
+      <div>
+        <h2>I wanted to be a good boy... my energy is {this.state.count} </h2>
+        <button onClick={this.add_correct}>ADD</button>
+        <button onClick={this.minus_correct}>MINUS</button>
+      </div>
+    );
+  }
 }
 
 export default App;
